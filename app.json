@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Attendance",
-    "slug": "Attendance",
+    "slug": "attendance",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,17 +12,30 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
+      "package": "com.yourusername.attendance",
+      "versionCode": 2,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourusername.attendance"
+    },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "de91abf0-1017-4fef-9032-4e789dd6a6bb"
+      }
+    },
+    "owner": "mayank07feb"
   }
 }

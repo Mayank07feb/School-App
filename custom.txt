@@ -1,0 +1,317 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';  // Importing MaterialIcons
+import Layout from 'components/Layout';  // Ensure this is correctly imported
+
+const HomeScreen: React.FC = () => {
+  const navigation = useNavigation(); // Getting the navigation object
+  const [modalVisible, setModalVisible] = useState(false);  // Define modal state
+
+  return (
+    <Layout>
+      <View className="flex-1 bg-teal-100">
+        {/* Main Content with ScrollView */}
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 20 }}>
+          {/* Header with User Profile */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4 flex-row items-center">
+            {/* User Image */}
+            <Image
+              source={{ uri: 'https://randomuser.me/api/portraits/men/3.jpg' }}
+              className="w-12 h-12 rounded-full mr-4"
+            />
+            <View>
+              <Text className="text-lg font-semibold text-teal-600">Mayank Sharma</Text>
+              <Text className="text-gray-500">Software Engineer</Text>
+            </View>
+            <TouchableOpacity onPress={() => setModalVisible(true)} className="ml-auto">
+              <MaterialIcons name="edit" size={24} color="teal" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Check-In, Check-Out, Take Break Buttons */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <TouchableOpacity
+              className="bg-teal-600 py-3 rounded mb-3"
+              onPress={() => navigation.navigate('Check-In')} // Navigate to the CheckIn page
+            >
+              <Text className="text-center text-white font-medium">Check In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-red-500 py-3 rounded mb-3"
+              onPress={() => navigation.navigate('Check-Out')} // Navigate to CheckOut page
+            >
+              <Text className="text-center text-white font-medium">Check Out</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-gray-500 py-3 rounded"
+              onPress={() => navigation.navigate('Take-Break')} // Navigate to Take Break page
+            >
+              <Text className="text-center text-white font-medium">Take Break</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Attendance Summary */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Attendance Summary</Text>
+            <View className="flex-row justify-between items-center">
+              <View className="bg-teal-500 p-4 rounded-lg flex-1 mr-2">
+                <Text className="text-white text-2xl font-bold text-center">85%</Text>
+                <Text className="text-white text-sm text-center">Attendance Rate</Text>
+              </View>
+              <View className="bg-green-500 p-4 rounded-lg flex-1 ml-2">
+                <Text className="text-white text-2xl font-bold text-center">15%</Text>
+                <Text className="text-white text-sm text-center">Absent</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Employee Performance Overview */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Employee Performance</Text>
+            <View className="flex-row justify-between items-center">
+              <View className="bg-blue-500 p-4 rounded-lg flex-1 mr-2">
+                <Text className="text-white text-2xl font-bold text-center">40 hrs</Text>
+                <Text className="text-white text-sm text-center">Worked Hours</Text>
+              </View>
+              <View className="bg-yellow-500 p-4 rounded-lg flex-1 ml-2">
+                <Text className="text-white text-2xl font-bold text-center">5 hrs</Text>
+                <Text className="text-white text-sm text-center">Breaks Taken</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Recent Activity */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Recent Activity</Text>
+            <View>
+              <Text className="text-gray-600">Checked In: 8:30 AM</Text>
+              <Text className="text-gray-600">Checked Out: 5:00 PM</Text>
+              <Text className="text-gray-600">Break Taken: 12:30 PM - 1:00 PM</Text>
+            </View>
+          </View>
+
+          {/* Announcements */}
+          <View className="bg-yellow-100 p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-gray-800 mb-2">Announcements</Text>
+            <Text className="text-gray-600">📢 Team meeting scheduled for Monday at 10:00 AM. Don't forget to prepare your reports!</Text>
+          </View>
+
+
+          {/* Team Collaboration */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Team Collaboration</Text>
+            <TouchableOpacity
+              className="bg-teal-600 py-3 rounded mb-3"
+              onPress={() => navigation.navigate('TeamChat')} // Navigate to a chat screen
+            >
+              <Text className="text-center text-white font-medium">Team Chat</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-blue-500 py-3 rounded"
+              onPress={() => navigation.navigate('Tasks')} // Navigate to a task management screen
+            >
+              <Text className="text-center text-white font-medium">View Tasks</Text>
+            </TouchableOpacity>
+          </View>
+
+
+          {/* Feedback */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Feedback</Text>
+            <TouchableOpacity
+              className="bg-red-500 py-3 rounded"
+              onPress={() => navigation.navigate('FeedbackForm')} // Navigate to Feedback Form
+            >
+              <Text className="text-center text-white font-medium">Give Feedback</Text>
+            </TouchableOpacity>
+          </View>
+
+
+          {/* Health and Wellness */}
+          <View className="bg-green-100 p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-green-800 mb-4">Health and Wellness</Text>
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className="text-gray-600">Steps Today</Text>
+              <Text className="text-teal-600">7,500</Text>
+            </View>
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className="text-gray-600">Water Intake</Text>
+              <Text className="text-teal-600">2.5L</Text>
+            </View>
+            <TouchableOpacity
+              className="bg-green-500 py-3 rounded"
+              onPress={() => navigation.navigate('WellnessActivities')} // Navigate to Wellness Activities Page
+            >
+              <Text className="text-center text-white font-medium">Explore Wellness Activities</Text>
+            </TouchableOpacity>
+          </View>
+
+
+          {/* Training & Resources */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Training & Resources</Text>
+            <TouchableOpacity
+              className="bg-gray-500 py-3 rounded mb-3"
+              onPress={() => navigation.navigate('Training')} // Navigate to Training Page
+            >
+              <Text className="text-center text-white font-medium">Access Training</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-teal-600 py-3 rounded"
+              onPress={() => navigation.navigate('Resources')} // Navigate to Resources Page
+            >
+              <Text className="text-center text-white font-medium">View Resources</Text>
+            </TouchableOpacity>
+          </View>
+
+
+          {/* Upcoming Events/Tasks */}
+          <View className="bg-white p-4 rounded-lg shadow mb-4">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Upcoming Events</Text>
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className="text-gray-600">Project Deadline</Text>
+              <Text className="text-red-500">24 Nov 2024</Text>
+            </View>
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className="text-gray-600">Team Outing</Text>
+              <Text className="text-teal-600">30 Nov 2024</Text>
+            </View>
+            <View className="flex-row justify-between items-center">
+              <Text className="text-gray-600">Performance Review</Text>
+              <Text className="text-green-500">05 Dec 2024</Text>
+            </View>
+          </View>
+
+
+          {/* Quick Links */}
+          <View className="bg-white p-4 rounded-lg shadow">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Quick Links</Text>
+            <View className="flex-row flex-wrap justify-between">
+              <TouchableOpacity
+                className="bg-teal-600 p-4 rounded-lg w-[48%] mb-4"
+                onPress={() => navigation.navigate('Leave')}
+              >
+                <Text className="text-white text-center">Leave Request</Text>
+              </TouchableOpacity>
+              <TouchableOpacity className="bg-green-500 p-4 rounded-lg w-[48%] mb-4">
+                <Text className="text-white text-center">View Records</Text>
+              </TouchableOpacity>
+              <TouchableOpacity className="bg-yellow-500 p-4 rounded-lg w-[48%] mb-4"
+                onPress={() => navigation.navigate('Notifications')} // Navigate to NotificationScreen
+              >
+                <Text className="text-white text-center">Notifications</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="bg-red-500 p-4 rounded-lg w-[48%] mb-4"
+                onPress={() => navigation.navigate('Settings')} // Add navigation logic here
+              >
+                <Text className="text-white text-center">Settings</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Modal for editing profile */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="bg-white p-6 rounded-lg w-80">
+            <Text className="text-lg font-semibold text-teal-600 mb-4">Edit Profile</Text>
+            {/* Add form for editing profile here */}
+            <TouchableOpacity onPress={() => setModalVisible(false)} className="bg-teal-600 py-2 rounded-lg">
+              <Text className="text-center text-white font-medium">Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </Layout>
+  );
+};
+
+export default HomeScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "name": "attendance",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~4.0.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-picker/picker": "2.9.0",
+    "@react-navigation/bottom-tabs": "^7.0.6",
+    "@react-navigation/drawer": "^7.0.7",
+    "@react-navigation/native": "^7.0.4",
+    "@react-navigation/native-stack": "^7.1.0",
+    "@react-navigation/stack": "^7.0.5",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
+    "expo": "~52.0.9",
+    "expo-camera": "~16.0.7",
+    "expo-dev-client": "~5.0.4",
+    "expo-local-authentication": "~15.0.1",
+    "expo-location": "~18.0.2",
+    "expo-permissions": "^14.4.0",
+    "expo-status-bar": "~2.0.0",
+    "moment": "^2.30.1",
+    "moti": "^0.29.0",
+    "nativewind": "^4.1.23",
+    "postcss": "^8.4.49",
+    "promise": "^8.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.3",
+    "react-native-calendar-picker": "^8.0.5",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-get-random-values": "~1.11.0",
+    "react-native-linear-gradient": "^2.8.3",
+    "react-native-modal-datetime-picker": "^18.0.0",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.1.0",
+    "react-native-vector-icons": "^10.2.0",
+    "react-native-vision-camera": "^4.6.3",
+    "react-native-web": "~0.19.13",
+    "react-webcam": "^7.2.0",
+    "tailwindcss": "^3.4.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/runtime": "^7.26.0",
+    "@react-native-community/cli": "^15.1.2",
+    "@types/react": "~18.3.12",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "typescript": "^5.3.3"
+  },
+  "private": true,
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
