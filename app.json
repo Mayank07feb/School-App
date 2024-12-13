@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Attendance",
-    "slug": "attendance",
+    "name": "Schoolmanagement",
+    "slug": "schoolmanagement",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
-      "package": "com.yourusername.attendance",
+      "package": "com.yourusername.schoolmanagement",
       "versionCode": 2,
       "permissions": [
         "CAMERA",
@@ -26,16 +26,19 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourusername.attendance"
+      "bundleIdentifier": "com.yourusername.schoolmanagement"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "de91abf0-1017-4fef-9032-4e789dd6a6bb"
+        "projectId": "7d04ac3d-dac3-4c59-b5be-4830cf1c61be"
       }
     },
-    "owner": "mayank07feb"
+    "owner": "mayank07feb",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

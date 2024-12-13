@@ -1,60 +1,202 @@
-// import React, { useState } from 'react';
-// import { View, Text } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import HomeScreen from './screens/HomeScreen';
-// import CheckInScreen from './screens/CheckInScreen';
-// import CheckOutScreen from './screens/CheckOutScreen';
-// import AttendanceRecord from './screens/AttendanceRecord';
-// import AccountScreen from './screens/AccountScreen';
-// import LoginScreen from './screens/LoginScreen';
-// import SignupScreen from './screens/SignupScreen';
-// import './global.css';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Layout from 'components/Layout';
 
-// // Navigators
-// const Tab = createBottomTabNavigator();
-// const Stack = createNativeStackNavigator();
+// TypeScript Interfaces
+interface SectionTitleProps {
+  title: string;
+}
 
-// // Main Tab Navigator for the App
-// const AppTabs: React.FC = () => (
-//   <Tab.Navigator>
-//     <Tab.Screen name="Home" component={HomeScreen} />
-//     <Tab.Screen name="Check-In" component={CheckInScreen} />
-//     <Tab.Screen name="Check-Out" component={CheckOutScreen} />
-//     <Tab.Screen name="Records" component={AttendanceRecord} />
-//     <Tab.Screen name="Account" component={AccountScreen} />
-//   </Tab.Navigator>
-// );
+interface QuickActionProps {
+  icon: React.ReactNode;
+  text: string;
+  onPress: () => void;
+  bgColor?: string;
+}
 
-// // App Component with Login/Signup Flow
-// export default function App() {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         {isLoggedIn ? (
-//           // Show main app if logged in
-//           <Stack.Screen
-//             name="MainApp"
-//             component={AppTabs}
-//             options={{ headerShown: false }}
-//           />
-//         ) : (
-//           // Show login/signup screens if not logged in
-//           <>
-//             <Stack.Screen name="Login">
-//               {(props) => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
-//             </Stack.Screen>
-//             <Stack.Screen name="Signup" component={SignupScreen} />
-//           </>
-//         )}
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-// headerShown: false, // Hide headers globally
+  return (
+    <Layout>
+      <View className="flex-1 bg-[#f4f5f7]">
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 40 }}>
+          {/* Profile Header with Elegant Design */}
+          <View className="bg-white rounded-2xl shadow-lg mb-6 p-5 flex-row items-center">
+            <Image
+              source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+              className="w-16 h-16 rounded-full mr-4 border-2 border-[#14B8A6]"
+            />
+            <View className="flex-1">
+              <Text className="text-xl font-bold text-[#2c3e50]">Dr. Emily Rodriguez</Text>
+              <Text className="text-[#7f8c8d] text-sm">School Principal</Text>
+            </View>
+            <TouchableOpacity 
+              onPress={() => setModalVisible(true)} 
+              className="p-2 bg-[#14B8A6]/10 rounded-full"
+            >
+              <MaterialIcons name="edit" size={24} color="#14B8A6" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Quick Actions Grid */}
+          <View className="grid grid-cols-2 gap-4 mb-6">
+            <QuickActionCard 
+              icon={<MaterialIcons name="person-add" size={28} color="white" />}
+              text="Student Admission" 
+              onPress={() => navigation.navigate('StudentAdmission')}
+              bgColor="bg-[#3498db]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="people" size={28} color="white" />}
+              text="Staff Management" 
+              onPress={() => navigation.navigate('StaffManagement')}
+              bgColor="bg-[#e74c3c]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="schedule" size={28} color="white" />}
+              text="Class Schedule" 
+              onPress={() => navigation.navigate('ClassSchedule')}
+              bgColor="bg-[#9b59b6]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="assignment" size={28} color="white" />}
+              text="Assignments" 
+              onPress={() => navigation.navigate('Assignments')}
+              bgColor="bg-[#1abc9c]"
+            />
+          </View>
+
+          {/* Academic Performance Summary */}
+          <View className="grid grid-cols-2 gap-4 mb-6">
+            <PerformanceCard 
+              label="Total Students" 
+              value="1,250" 
+              bgColor="bg-[#3498db]" 
+            />
+            <PerformanceCard 
+              label="Staff Members" 
+              value="85" 
+              bgColor="bg-[#e74c3c]" 
+            />
+            <PerformanceCard 
+              label="Average Grade" 
+              value="A-" 
+              bgColor="bg-[#9b59b6]" 
+            />
+            <PerformanceCard 
+              label="Pass Percentage" 
+              value="92%" 
+              bgColor="bg-[#1abc9c]" 
+            />
+          </View>
+
+          {/* Academic Tools Section */}
+          <View className="grid grid-cols-2 gap-4">
+            <QuickActionCard 
+              icon={<MaterialIcons name="library-books" size={28} color="white" />}
+              text="Exam Portal" 
+              onPress={() => navigation.navigate('ExamPortal')}
+              bgColor="bg-[#34495e]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="book" size={28} color="white" />}
+              text="Online Library" 
+              onPress={() => navigation.navigate('OnlineLibrary')}
+              bgColor="bg-[#2ecc71]"
+            />
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)} 
+      />
+    </Layout>
+  );
+};
+
+const QuickActionCard: React.FC<QuickActionProps> = ({ 
+  icon, 
+  text, 
+  onPress, 
+  bgColor = 'bg-[#3498db]' 
+}) => (
+  <TouchableOpacity 
+    onPress={onPress}
+    className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}
+    style={{
+      elevation: 3,
+      transform: [{ scale: 0.95 }]
+    }}
+  >
+    <View className="mb-2">{icon}</View>
+    <Text className="text-white text-center font-semibold">{text}</Text>
+  </TouchableOpacity>
+);
+
+const PerformanceCard: React.FC<{ 
+  label: string; 
+  value: string; 
+  bgColor: string 
+}> = ({ label, value, bgColor }) => (
+  <View 
+    className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}
+    style={{ elevation: 3 }}
+  >
+    <Text className="text-white text-2xl font-bold mb-1">{value}</Text>
+    <Text className="text-white/80 text-xs text-center">{label}</Text>
+  </View>
+);
+
+const EditProfileModal: React.FC<{ 
+  visible: boolean; 
+  onClose: () => void 
+}> = ({ visible, onClose }) => (
+  <Modal 
+    transparent={true} 
+    animationType="slide" 
+    visible={visible} 
+    onRequestClose={onClose}
+  >
+    <View className="flex-1 justify-center items-center bg-black/50">
+      <View className="bg-white rounded-2xl w-80 p-6 shadow-2xl">
+        <Text className="text-xl font-bold text-[#2c3e50] mb-4 text-center">
+          Edit Profile
+        </Text>
+        <TouchableOpacity 
+          onPress={onClose} 
+          className="bg-[#e74c3c] py-3 rounded-xl"
+        >
+          <Text className="text-white text-center font-semibold">Close</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+export default HomeScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,217 +204,548 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from './screens/HomeScreen';
-import CheckInScreen from './screens/CheckInScreen';
-import CheckOutScreen from './screens/CheckOutScreen';
-import TakeBreakScreen from './screens/TakeBreakScreen';
-import LeaveScreen from './screens/LeaveScreen';
-import NotificationScreen from './screens/NotificationScreen';
-import AttendanceRecord from './screens/AttendanceRecord';
-import SettingScreen from './screens/SettingScreen';
-import AccountScreen from './screens/AccountScreen';
-import LoginScreen from './screens/LoginScreen';
-import SignupScreen from './screens/SignupScreen';
-import Icon from 'react-native-vector-icons/MaterialIcons'; 
-import './global.css';
+import { View, Text, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Layout from 'components/Layout';
 
-// Navigators
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+interface QuickActionProps {
+  icon: React.ReactNode;
+  text: string;
+  onPress: () => void;
+  bgColor?: string;
+}
 
-// Bottom Tab Navigator
-const AppTabs: React.FC = () => (
-  <Tab.Navigator
-    screenOptions={{
-      headerShown: false, // Hide headers globally
-      tabBarStyle: { display: 'none' },
-    }}
-  >
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Check-Out" component={CheckOutScreen} />
-    <Tab.Screen name="Records" component={AttendanceRecord} />
-    <Tab.Screen name="Account" component={AccountScreen} />
-  </Tab.Navigator>
-);
-
-// Drawer Navigator wrapping the Tab Navigator
-const AppDrawer: React.FC = () => (
-  <Drawer.Navigator
-    screenOptions={{
-      drawerStyle: {
-        backgroundColor: '#008080', // Set drawer background color to teal
-        width: 280, // Increased width of the drawer
-      },
-      drawerLabelStyle: {
-        color: 'white', // Set text color to white
-        fontSize: 18, // Increased font size for better readability
-        fontWeight: 'bold', // Make the text bold
-      },
-      headerStyle: {
-        backgroundColor: '#008080', // Set the header background color
-      },
-      headerTintColor: 'white', // Set header text color to white
-      headerShown: false, // Show the header in the drawer
-      drawerActiveBackgroundColor: '#006666', // Set active drawer background color
-      drawerInactiveTintColor: 'white', // Set color of inactive items
-      drawerActiveTintColor: 'white', // Set color of active items
-      transitionSpec: {
-        open: { animation: 'spring', config: { stiffness: 1000, damping: 20 } },
-        close: { animation: 'timing', config: { duration: 500 } },
-      }, // Smooth transitions when opening and closing the drawer
-    }}
-  >
-    {/* Custom Drawer Header with user info */}
-    <Drawer.Screen
-      name="Dashboard"
-      component={AppTabs}
-      options={{
-        // Custom Drawer Header with User Info
-        drawerLabel: () => (
-          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
-            <Image
-              source={{ uri: 'https://randomuser.me/api/portraits/men/3.jpg' }} // Example user image
-              style={{ width: 40, height: 40, borderRadius: 20, marginRight: 8 }}
-            />
-            <Text style={{ color: 'white', fontSize: 20 }}>Mayank Sharma</Text>
-          </View>
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="home" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Check-In"
-      component={CheckInScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="login" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Check-Out"
-      component={CheckOutScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="logout" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Records"
-      component={AccountScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="history" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Take-Break"
-      component={TakeBreakScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="local-cafe" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Leave"
-      component={LeaveScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="beach-access" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Notifications"
-      component={NotificationScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="notifications" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Settings"
-      component={SettingScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="settings" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Account"
-      component={AccountScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="account-circle" size={size} color="white" />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name="Logout"
-      component={HomeScreen}
-      options={{
-        drawerIcon: ({ size }) => (
-          <Icon name="exit-to-app" size={size} color="white" />
-        ),
-        drawerLabel: 'Logout',
-      }}
-    />
-  </Drawer.Navigator>
-);
-
-// Main App Component
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {isLoggedIn ? (
-          // Show main app (Drawer Navigation) if logged in
-          <>
-            <Stack.Screen
-              name="MainApp"
-              component={AppDrawer}
-              options={{ headerShown: false }}
+    <Layout>
+      <View className="flex-1 bg-[#f4f5f7]">
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 40 }}>
+          {/* Profile Header */}
+          <View className="bg-white rounded-2xl shadow-lg mb-6 p-5 flex-row items-center">
+            <Image
+              source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+              className="w-16 h-16 rounded-full mr-4 border-2 border-[#14B8A6]"
             />
-            {/* Keep these screens accessible within the logged-in flow */}
-            <Stack.Screen name="Check-In" component={CheckInScreen} />
-            <Stack.Screen name="Check-Out" component={CheckOutScreen} />
-            <Stack.Screen name="Take-Break" component={TakeBreakScreen} />
-            <Stack.Screen name="Leave" component={LeaveScreen} />
-            <Stack.Screen name="Notifications" component={NotificationScreen} />
-            <Stack.Screen name="Settings" component={SettingScreen} />
-            <Stack.Screen name="Account" component={AccountScreen} />
-          </>
-        ) : (
-          // Show login/signup screens if not logged in
-          <>
-            <Stack.Screen name="Login">
-              {(props) => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
-            </Stack.Screen>
-            <Stack.Screen name="Signup" component={SignupScreen} />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+            <View className="flex-1">
+              <Text className="text-xl font-bold text-[#2c3e50]">Dr. Emily Rodriguez</Text>
+              <Text className="text-[#7f8c8d] text-sm">School Principal</Text>
+            </View>
+            <TouchableOpacity 
+              onPress={() => setModalVisible(true)} 
+              className="p-2 bg-[#14B8A6]/10 rounded-full"
+            >
+              <MaterialIcons name="edit" size={24} color="#14B8A6" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Circular Section with Arrows */}
+          <View className="bg-white rounded-full shadow-lg mb-6 p-6 items-center justify-center">
+            <Text className="text-lg font-bold text-[#2c3e50] mb-2">Overview</Text>
+            <View className="relative w-40 h-40">
+              {/* Placeholder for arrows and stats */}
+              <Text className="absolute top-0 left-[50%] -translate-x-1/2 text-sm">Assignments</Text>
+              <Text className="absolute right-0 top-[50%] -translate-y-1/2 text-sm">Attendance</Text>
+              <Text className="absolute bottom-0 left-[50%] -translate-x-1/2 text-sm">Homework</Text>
+              <Text className="absolute left-0 top-[50%] -translate-y-1/2 text-sm">Backlog</Text>
+            </View>
+          </View>
+
+          {/* Quick Actions Grid */}
+          <View className="grid grid-cols-2 gap-4 mb-6">
+            <QuickActionCard 
+              icon={<MaterialIcons name="person-add" size={28} color="white" />}
+              text="Student Admission" 
+              onPress={() => navigation.navigate('StudentAdmission')}
+              bgColor="bg-[#3498db]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="people" size={28} color="white" />}
+              text="Staff Management" 
+              onPress={() => navigation.navigate('StaffManagement')}
+              bgColor="bg-[#e74c3c]"
+            />
+          </View>
+
+          {/* Performance Summary */}
+          <View className="grid grid-cols-2 gap-4 mb-6">
+            <PerformanceCard label="Total Students" value="1,250" bgColor="bg-[#3498db]" />
+            <PerformanceCard label="Staff Members" value="85" bgColor="bg-[#e74c3c]" />
+            <PerformanceCard label="Average Grade" value="A-" bgColor="bg-[#9b59b6]" />
+            <PerformanceCard label="Pass %" value="92%" bgColor="bg-[#1abc9c]" />
+          </View>
+
+          {/* Academic Tools */}
+          <View className="grid grid-cols-2 gap-4 mb-6">
+            <QuickActionCard 
+              icon={<MaterialIcons name="library-books" size={28} color="white" />}
+              text="Exam Portal" 
+              onPress={() => navigation.navigate('ExamPortal')}
+              bgColor="bg-[#34495e]"
+            />
+            <QuickActionCard 
+              icon={<MaterialIcons name="book" size={28} color="white" />}
+              text="Online Library" 
+              onPress={() => navigation.navigate('OnlineLibrary')}
+              bgColor="bg-[#2ecc71]"
+            />
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+    </Layout>
   );
+};
+
+const QuickActionCard: React.FC<QuickActionProps> = ({ icon, text, onPress, bgColor = 'bg-[#3498db]' }) => (
+  <TouchableOpacity 
+    onPress={onPress}
+    className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}
+  >
+    <View className="mb-2">{icon}</View>
+    <Text className="text-white text-center font-semibold">{text}</Text>
+  </TouchableOpacity>
+);
+
+const PerformanceCard: React.FC<{ label: string; value: string; bgColor: string }> = ({ label, value, bgColor }) => (
+  <View className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}>
+    <Text className="text-white text-2xl font-bold mb-1">{value}</Text>
+    <Text className="text-white/80 text-xs text-center">{label}</Text>
+  </View>
+);
+
+const EditProfileModal: React.FC<{ visible: boolean; onClose: () => void }> = ({ visible, onClose }) => (
+  <Modal transparent={true} animationType="slide" visible={visible} onRequestClose={onClose}>
+    <View className="flex-1 justify-center items-center bg-black/50">
+      <View className="bg-white rounded-2xl w-80 p-6 shadow-2xl">
+        <Text className="text-xl font-bold text-[#2c3e50] mb-4 text-center">Edit Profile</Text>
+        <TouchableOpacity onPress={onClose} className="bg-[#e74c3c] py-3 rounded-xl">
+          <Text className="text-white text-center font-semibold">Close</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+export default HomeScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Layout from 'components/Layout';
+
+const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [viewMode, setViewMode] = useState<'design1' | 'design2'>('design1'); // Toggle between designs
+
+  return (
+    <Layout>
+      <View className="flex-1 bg-[#f4f5f7]">
+        {/* Header Toggle Button */}
+        <View className="flex-row justify-center p-4 bg-[#34495e]">
+          <TouchableOpacity
+            onPress={() => setViewMode('design1')}
+            className={`p-2 ${viewMode === 'design1' ? 'bg-[#3498db]' : 'bg-white'} rounded-l-full`}
+          >
+            <Text className={`text-center font-bold ${viewMode === 'design1' ? 'text-white' : 'text-[#34495e]'}`}>
+              Design 1
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setViewMode('design2')}
+            className={`p-2 ${viewMode === 'design2' ? 'bg-[#e74c3c]' : 'bg-white'} rounded-r-full`}
+          >
+            <Text className={`text-center font-bold ${viewMode === 'design2' ? 'text-white' : 'text-[#34495e]'}`}>
+              Design 2
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 40 }}>
+          {viewMode === 'design1' && (
+            <>
+              {/* Design 1 */}
+              <View className="bg-white rounded-2xl shadow-lg mb-6 p-5 flex-row items-center">
+                <Image
+                  source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+                  className="w-16 h-16 rounded-full mr-4 border-2 border-[#14B8A6]"
+                />
+                <View className="flex-1">
+                  <Text className="text-xl font-bold text-[#2c3e50]">Dr. Emily Rodriguez</Text>
+                  <Text className="text-[#7f8c8d] text-sm">School Principal</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                  className="p-2 bg-[#14B8A6]/10 rounded-full"
+                >
+                  <MaterialIcons name="edit" size={24} color="#14B8A6" />
+                </TouchableOpacity>
+              </View>
+
+              {/* Quick Actions */}
+              <View className="grid grid-cols-2 gap-4 mb-6">
+                <QuickActionCard
+                  icon={<MaterialIcons name="person-add" size={28} color="white" />}
+                  text="Student Admission"
+                  onPress={() => navigation.navigate('StudentAdmission')}
+                  bgColor="bg-[#3498db]"
+                />
+                <QuickActionCard
+                  icon={<MaterialIcons name="people" size={28} color="white" />}
+                  text="Staff Management"
+                  onPress={() => navigation.navigate('StaffManagement')}
+                  bgColor="bg-[#e74c3c]"
+                />
+              </View>
+
+              {/* Performance Summary */}
+              <View className="grid grid-cols-2 gap-4 mb-6">
+                <PerformanceCard label="Total Students" value="1,250" bgColor="bg-[#3498db]" />
+                <PerformanceCard label="Staff Members" value="85" bgColor="bg-[#e74c3c]" />
+              </View>
+            </>
+          )}
+
+          {viewMode === 'design2' && (
+            <>
+              {/* Design 2 */}
+              <View className="bg-white rounded-full shadow-lg mb-6 p-6 items-center justify-center">
+                <Text className="text-lg font-bold text-[#2c3e50] mb-2">Overview</Text>
+                <View className="relative w-40 h-40">
+                  <Text className="absolute top-0 left-[50%] -translate-x-1/2 text-sm">Assignments</Text>
+                  <Text className="absolute right-0 top-[50%] -translate-y-1/2 text-sm">Attendance</Text>
+                  <Text className="absolute bottom-0 left-[50%] -translate-x-1/2 text-sm">Homework</Text>
+                  <Text className="absolute left-0 top-[50%] -translate-y-1/2 text-sm">Backlog</Text>
+                </View>
+              </View>
+
+              {/* Academic Tools */}
+              <View className="grid grid-cols-2 gap-4 mb-6">
+                <QuickActionCard
+                  icon={<MaterialIcons name="library-books" size={28} color="white" />}
+                  text="Exam Portal"
+                  onPress={() => navigation.navigate('ExamPortal')}
+                  bgColor="bg-[#34495e]"
+                />
+                <QuickActionCard
+                  icon={<MaterialIcons name="book" size={28} color="white" />}
+                  text="Online Library"
+                  onPress={() => navigation.navigate('OnlineLibrary')}
+                  bgColor="bg-[#2ecc71]"
+                />
+              </View>
+            </>
+          )}
+        </ScrollView>
+      </View>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+    </Layout>
+  );
+};
+
+const QuickActionCard: React.FC<{ icon: React.ReactNode; text: string; onPress: () => void; bgColor?: string }> = ({
+  icon,
+  text,
+  onPress,
+  bgColor = 'bg-[#3498db]',
+}) => (
+  <TouchableOpacity
+    onPress={onPress}
+    className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}
+  >
+    <View className="mb-2">{icon}</View>
+    <Text className="text-white text-center font-semibold">{text}</Text>
+  </TouchableOpacity>
+);
+
+const PerformanceCard: React.FC<{ label: string; value: string; bgColor: string }> = ({ label, value, bgColor }) => (
+  <View className={`${bgColor} rounded-2xl p-4 items-center justify-center shadow-md`}>
+    <Text className="text-white text-2xl font-bold mb-1">{value}</Text>
+    <Text className="text-white/80 text-xs text-center">{label}</Text>
+  </View>
+);
+
+const EditProfileModal: React.FC<{ visible: boolean; onClose: () => void }> = ({ visible, onClose }) => (
+  <Modal transparent={true} animationType="slide" visible={visible} onRequestClose={onClose}>
+    <View className="flex-1 justify-center items-center bg-black/50">
+      <View className="bg-white rounded-2xl w-80 p-6 shadow-2xl">
+        <Text className="text-xl font-bold text-[#2c3e50] mb-4 text-center">Edit Profile</Text>
+        <TouchableOpacity onPress={onClose} className="bg-[#e74c3c] py-3 rounded-xl">
+          <Text className="text-white text-center font-semibold">Close</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+export default HomeScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+First Screen 
+
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Layout from 'components/Layout';
+
+// TypeScript Interfaces for Type Safety
+interface SectionTitleProps {
+  title: string;
 }
+
+interface ActionButtonProps {
+  text: string; 
+  color: string; 
+  onPress: () => void;
+  icon?: string;
+}
+
+interface SummarySectionProps {
+  title: string; 
+  data: Array<{ label: string; value: string; bgColor: string }>;
+}
+
+// HomeScreen Component
+const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <Layout>
+      <View className="flex-1 bg-[#dee3ee]">
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 40 }}>
+          {/* Principal/Admin Profile Header */}
+          <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4 flex-row items-center">
+            <Image
+              source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+              className="w-12 h-12 rounded-full mr-4"
+            />
+            <View>
+              <Text className="text-lg font-semibold text-[#14B8A6]">Dr. Emily Rodriguez</Text>
+              <Text className="text-gray-400">School Principal</Text>
+            </View>
+            <TouchableOpacity 
+              onPress={() => setModalVisible(true)} 
+              className="ml-auto"
+            >
+              <MaterialIcons name="edit" size={24} color="#14B8A6" />
+            </TouchableOpacity>
+          </View>
+
+          {/* School Actions Section */}
+          <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4">
+            <SectionTitle title="School Management" />
+            <ActionButton 
+              text="Student Admission" 
+              color="bg-[#14B8A6]" 
+              onPress={() => navigation.navigate('StudentAdmission')} 
+            />
+            <ActionButton 
+              text="Staff Management" 
+              color="bg-red-600" 
+              onPress={() => navigation.navigate('StaffManagement')} 
+            />
+            <ActionButton 
+              text="Class Schedule" 
+              color="bg-gray-500" 
+              onPress={() => navigation.navigate('ClassSchedule')} 
+            />
+          </View>
+
+          {/* New Academic Summary Section */}
+          <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4">
+            <SectionTitle title="Academic Information" />
+            <View className="grid grid-cols-2 gap-4">
+              <ActionButton text="Assignments" color="bg-[#14B8A6]" onPress={() => navigation.navigate('Assignments')} />
+              <ActionButton text="Attendance %" color="bg-red-600" onPress={() => navigation.navigate('Attendance')} />
+              <ActionButton text="Homework Status" color="bg-gray-500" onPress={() => navigation.navigate('HomeworkStatus')} />
+              <ActionButton text="Backlog Info" color="bg-[#14B8A6]" onPress={() => navigation.navigate('BacklogInfo')} />
+            </View>
+          </View>
+
+          {/* Additional Sections */}
+          <SummarySection
+            title="Academic Overview"
+            data={[
+              { label: 'Total Students', value: '1,250', bgColor: 'bg-[#14B8A6]' },
+              { label: 'Staff Members', value: '85', bgColor: 'bg-red-600' },
+            ]}
+          />
+
+          <SummarySection
+            title="Academic Performance"
+            data={[
+              { label: 'Average Grade', value: 'A-', bgColor: 'bg-[#14B8A6]' },
+              { label: 'Pass Percentage', value: '92%', bgColor: 'bg-red-600' },
+            ]}
+          />
+
+          {/* Academic Tools */}
+          <AcademicToolsSection navigation={navigation} />
+
+          {/* Quick Links */}
+          <QuickLinks navigation={navigation} />
+        </ScrollView>
+      </View>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)} 
+      />
+    </Layout>
+  );
+};
+
+// Helper Components
+const SectionTitle: React.FC<SectionTitleProps> = ({ title }) => (
+  <Text className="text-lg font-semibold text-[#14B8A6] mb-4">{title}</Text>
+);
+
+const ActionButton: React.FC<ActionButtonProps> = ({ text, color, onPress }) => (
+  <TouchableOpacity 
+    className={`${color} py-3 rounded mb-3 shadow-lg`}
+    style={{
+      transform: [{ perspective: 1000 }, { rotateX: '5deg' }],
+      elevation: 5,
+    }}
+    onPress={onPress}
+  >
+    <Text className="text-center text-white font-medium">{text}</Text>
+  </TouchableOpacity>
+);
+
+const SummarySection: React.FC<SummarySectionProps> = ({ title, data }) => (
+  <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4">
+    <SectionTitle title={title} />
+    <View className="grid grid-cols-2 gap-4">
+      {data.map((item, index) => (
+        <View 
+          key={index} 
+          className={`${item.bgColor} p-4 rounded-lg`}
+        >
+          <Text className="text-white text-2xl font-bold text-center">{item.value}</Text>
+          <Text className="text-white text-sm text-center">{item.label}</Text>
+        </View>
+      ))}
+    </View>
+  </View>
+);
+
+const TextItem: React.FC<{ text: string }> = ({ text }) => (
+  <Text className="text-gray-400 mb-2">{text}</Text>
+);
+
+const AcademicToolsSection: React.FC<{ navigation: any }> = ({ navigation }) => (
+  <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4">
+    <SectionTitle title="Academic Tools" />
+    <ActionButton 
+      text="Examination Portal" 
+      color="bg-[#14B8A6]" 
+      onPress={() => navigation.navigate('ExamPortal')} 
+    />
+    <ActionButton 
+      text="Online Library" 
+      color="bg-red-600" 
+      onPress={() => navigation.navigate('OnlineLibrary')} 
+    />
+  </View>
+);
+
+const QuickLinks: React.FC<{ navigation: any }> = ({ navigation }) => (
+  <View className="bg-[#1E293B] p-4 rounded-lg shadow-lg mb-4">
+    <SectionTitle title="Quick Links" />
+    <View className="grid grid-cols-2 gap-4">
+      <ActionButton
+        text="Admission Inquiry"
+        color="bg-[#14B8A6]"
+        onPress={() => navigation.navigate('AdmissionInquiry')}
+      />
+      <ActionButton
+        text="Student Records"
+        color="bg-red-600"
+        onPress={() => navigation.navigate('StudentRecords')}
+      />
+      <ActionButton
+        text="Notifications"
+        color="bg-gray-500"
+        onPress={() => navigation.navigate('Notifications')}
+      />
+      <ActionButton
+        text="School Settings"
+        color="bg-[#14B8A6]"
+        onPress={() => navigation.navigate('SchoolSettings')}
+      />
+    </View>
+  </View>
+);
+
+const EditProfileModal: React.FC<{ visible: boolean; onClose: () => void }> = ({ visible, onClose }) => (
+  <Modal 
+    transparent={true} 
+    animationType="fade" 
+    visible={visible} 
+    onRequestClose={onClose}
+  >
+    <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+      <View className="bg-[#1E293B] p-6 rounded-lg w-80">
+        <Text className="text-lg font-semibold text-[#14B8A6] mb-4">Edit Profile</Text>
+        <ActionButton 
+          text="Close" 
+          color="bg-red-600" 
+          onPress={onClose} 
+        />
+      </View>
+    </View>
+  </Modal>
+);
+
+export default HomeScreen;
+
+
+
+1 - Color Combination Fix All site same color
+2 - Student Screens - Parents Screnn - Teacher Screen
+3 - Time Table 

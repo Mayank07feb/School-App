@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './screens/HomeScreen';
-import CheckInScreen from './screens/CheckInScreen';
-import CheckOutScreen from './screens/CheckOutScreen';
 import TakeBreakScreen from './screens/TakeBreakScreen';
 import LeaveScreen from './screens/LeaveScreen';
 import NotificationScreen from './screens/NotificationScreen';
-import AttendanceRecord from './screens/AttendanceRecord';
-import MonthlyAttendanceRecords from './screens/MonthlyAttendanceRecords';
-import ReportsScreen from './screens/ReportsScreen';
 import SettingScreen from './screens/SettingScreen';
 import AccountScreen from './screens/AccountScreen';
+import AssignmentsScreen from './screens/AssignmentsScreen';
+import HomeworkScreen from './screens/HomeworkScreen';
+import BacklogScreen from './screens/BacklogScreen';
+import AttendanceScreen from './screens/AttendanceScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
+import TimeTableScreen from './screens/TimeTableScreen';
 import MainPage from './components/MainPage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MathScreen from './screens/Subjects/MathScreen'; // Math screen
+import PhysicsScreen from './screens/Subjects/PhysicsScreen'; // Physics screen
+import ChemistryScreen from './screens/Subjects/ChemistryScreen'; // Chemistry screen
+import BiologyScreen from './screens/Subjects/BiologyScreen'; // Biology screen
+import HistoryScreen from './screens/Subjects/HistoryScreen'; // History screen
+import GeographyScreen from './screens/Subjects/GeographyScreen'; // Geography screen
 import './global.css';
 
 // Navigators
@@ -30,44 +36,43 @@ const Drawer = createDrawerNavigator();
 const AppTabs: React.FC = () => (
   <Tab.Navigator
     screenOptions={{
-      headerShown: false, // Hide headers globally
+      headerShown: false,
       tabBarStyle: { display: 'none' },
     }}
   >
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Check-Out" component={CheckOutScreen} />
-    <Tab.Screen name="Records" component={AttendanceRecord} />
     <Tab.Screen name="Account" component={AccountScreen} />
+    <Tab.Screen name="TimeTable" component={TimeTableScreen} />
   </Tab.Navigator>
 );
 
-// Drawer Navigator wrapping the Tab Navigator
 const AppDrawer: React.FC = () => (
   <Drawer.Navigator
     screenOptions={{
       drawerStyle: {
-        backgroundColor: '#008080', // Set drawer background color to teal
-        width: 280, // Increased width of the drawer
+        backgroundColor: '#2C5E8F', // Dark blue color for the sidebar background
+        width: 280,
       },
       drawerLabelStyle: {
-        color: 'white', // Set text color to white
-        fontSize: 18, // Increased font size for better readability
-        fontWeight: 'bold', // Make the text bold
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
       },
       headerStyle: {
-        backgroundColor: '#008080', // Set the header background color
+        backgroundColor: '#2C5E8F', // Match the drawer background color
       },
-      headerTintColor: 'white', // Set header text color to white
-      headerShown: false, // Show the header in the drawer
-      drawerActiveBackgroundColor: '#006666', // Set active drawer background color
-      drawerInactiveTintColor: 'white', // Set color of inactive items
-      drawerActiveTintColor: 'white', // Set color of active items
+      headerTintColor: 'white',
+      headerShown: false,
+      drawerActiveBackgroundColor: '#3B7CB8', // Lighter blue for active item background
+      drawerInactiveTintColor: '#E5E7EB', // Slightly lighter text color for inactive items
+      drawerActiveTintColor: 'white', // White text for active items
       transitionSpec: {
         open: { animation: 'spring', config: { stiffness: 1000, damping: 20 } },
         close: { animation: 'timing', config: { duration: 500 } },
-      }, // Smooth transitions when opening and closing the drawer
+      },
     }}
   >
+    {/* Dashboard */}
     <Drawer.Screen
       name="Dashboard"
       component={AppTabs}
@@ -75,7 +80,7 @@ const AppDrawer: React.FC = () => (
         drawerLabel: () => (
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
             <Image
-              source={{ uri: 'https://randomuser.me/api/portraits/men/3.jpg' }} // Example user image
+              source={{ uri: 'https://randomuser.me/api/portraits/men/3.jpg' }}
               style={{ width: 40, height: 40, borderRadius: 20, marginRight: 8 }}
             />
             <Text style={{ color: 'white', fontSize: 20 }}>Mayank Sharma</Text>
@@ -83,46 +88,20 @@ const AppDrawer: React.FC = () => (
         ),
       }}
     />
+
+    {/* Add subject navigation */}
     <Drawer.Screen
-      name="Home"
-      component={HomeScreen}
+      name="Assignments"
+      component={AssignmentsScreen}
       options={{
-        drawerIcon: ({ size }) => <Icon name="home" size={size} color="white" />,
+        drawerIcon: ({ size }) => <Icon name="assignment" size={size} color="white" />,
       }}
     />
     <Drawer.Screen
-      name="Check-In"
-      component={CheckInScreen}
+      name="Homework"
+      component={HomeworkScreen}
       options={{
-        drawerIcon: ({ size }) => <Icon name="login" size={size} color="white" />,
-      }}
-    />
-    <Drawer.Screen
-      name="Check-Out"
-      component={CheckOutScreen}
-      options={{
-        drawerIcon: ({ size }) => <Icon name="logout" size={size} color="white" />,
-      }}
-    />
-    <Drawer.Screen
-      name="Records"
-      component={AttendanceRecord}
-      options={{
-        drawerIcon: ({ size }) => <Icon name="history" size={size} color="white" />,
-      }}
-    />
-    <Drawer.Screen
-      name="MonthlyAttendanceRecords"
-      component={MonthlyAttendanceRecords}
-      options={{
-        drawerIcon: ({ size }) => <Icon name="calendar-today" size={size} color="white" />,
-      }}
-    />
-    <Drawer.Screen
-      name="ReportsScreen"
-      component={ReportsScreen}
-      options={{
-        drawerIcon: ({ size }) => <Icon name="calendar-today" size={size} color="white" />,
+        drawerIcon: ({ size }) => <Icon name="school" size={size} color="white" />,
       }}
     />
     <Drawer.Screen
@@ -161,6 +140,20 @@ const AppDrawer: React.FC = () => (
       }}
     />
     <Drawer.Screen
+      name="Backlog"
+      component={BacklogScreen}
+      options={{
+        drawerIcon: ({ size }) => <Icon name="assignment-late" size={size} color="white" />,
+      }}
+    />
+    <Drawer.Screen
+      name="Attendance"
+      component={AttendanceScreen}
+      options={{
+        drawerIcon: ({ size }) => <Icon name="check-circle" size={size} color="white" />,
+      }}
+    />
+    <Drawer.Screen
       name="Logout"
       component={HomeScreen}
       options={{
@@ -170,8 +163,6 @@ const AppDrawer: React.FC = () => (
     />
   </Drawer.Navigator>
 );
-
-
 
 // Main App Component
 export default function App() {
@@ -209,13 +200,18 @@ export default function App() {
               component={AppDrawer}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="Check-In" component={CheckInScreen} />
-            <Stack.Screen name="Check-Out" component={CheckOutScreen} />
+            <Stack.Screen name="TimeTable" component={TimeTableScreen} />
             <Stack.Screen name="Take-Break" component={TakeBreakScreen} />
             <Stack.Screen name="Leave" component={LeaveScreen} />
             <Stack.Screen name="Notifications" component={NotificationScreen} />
             <Stack.Screen name="Settings" component={SettingScreen} />
             <Stack.Screen name="Account" component={AccountScreen} />
+            <Stack.Screen name="MathScreen" component={MathScreen} />
+            <Stack.Screen name="PhysicsScreen" component={PhysicsScreen} />
+            <Stack.Screen name="ChemistryScreen" component={ChemistryScreen} />
+            <Stack.Screen name="BiologyScreen" component={BiologyScreen} />
+            <Stack.Screen name="HistoryScreen" component={HistoryScreen} />
+            <Stack.Screen name="GeographyScreen" component={GeographyScreen} />
           </>
         )}
       </Stack.Navigator>

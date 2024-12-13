@@ -87,23 +87,23 @@ const SettingScreen: React.FC = () => {
   return (
     <Layout>
       <ScrollView 
-        className={`flex-1 ${theme === 'light' ? 'bg-teal-100' : 'bg-gray-900'} p-6`}
+        className={`flex-1 ${theme === 'light' ? 'bg-[#F0F5FF]' : 'bg-[#1F2937]'} p-6 pb-16`}
       >
         {/* Header */}
         <View className="mb-6">
-          <Text className={`text-3xl font-bold ${theme === 'light' ? 'text-teal-700' : 'text-white'}`}>
+          <Text className={`text-3xl font-bold ${theme === 'light' ? 'text-[#3B7CB8]' : 'text-white'}`}>
             Settings
           </Text>
-        </View>
+        </View> 
 
         {/* User Profile Section */}
-        <View className={`flex-row items-center ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-6 shadow-md`}>
+        <View className={`flex-row items-center ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-6 shadow-md`}>
           <Image
             source={{ uri: 'https://www.gravatar.com/avatar/placeholder' }}
-            className="w-16 h-16 rounded-full border-2 border-teal-500"
+            className="w-16 h-16 rounded-full border-2 border-[#3B7CB8]"
           />
           <View className="ml-4">
-            <Text className={`text-lg font-semibold ${theme === 'light' ? 'text-teal-700' : 'text-white'}`}>
+            <Text className={`text-lg font-semibold ${theme === 'light' ? 'text-[#3B7CB8]' : 'text-white'}`}>
               John Doe
             </Text>
             <Text className={`text-gray-500 ${theme === 'light' ? 'text-gray-500' : 'text-gray-300'}`}>
@@ -113,10 +113,10 @@ const SettingScreen: React.FC = () => {
         </View>
 
         {/* Notification Toggle */}
-        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}>
+        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}>
           <View className="flex-row items-center">
             <Icon name="notifications-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Enable Notifications
             </Text>
           </View>
@@ -131,24 +131,24 @@ const SettingScreen: React.FC = () => {
         {/* Theme Switch */}
         <TouchableOpacity
           onPress={switchTheme}
-          className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}
+          className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}
         >
           <View className="flex-row items-center">
             <Icon name="color-palette-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Switch Theme
             </Text>
           </View>
-          <Text className={`font-semibold ${theme === 'light' ? 'text-teal-500' : 'text-teal-300'}`}>
+          <Text className={`font-semibold ${theme === 'light' ? 'text-[#3B7CB8]' : 'text-[#3B7CB8]'}`}>
             {theme === 'light' ? 'Light' : 'Dark'}
           </Text>
         </TouchableOpacity>
 
         {/* Biometric Authentication */}
-        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}>
+        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}>
           <View className="flex-row items-center">
             <Icon name="finger-print-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Biometric Login
             </Text>
           </View>
@@ -163,24 +163,24 @@ const SettingScreen: React.FC = () => {
         {/* Language Preference */}
         <TouchableOpacity
           onPress={selectLanguage}
-          className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}
+          className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}
         >
           <View className="flex-row items-center">
             <Icon name="globe-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Language
             </Text>
           </View>
-          <Text className={`font-semibold ${theme === 'light' ? 'text-teal-500' : 'text-teal-300'}`}>
+          <Text className={`font-semibold ${theme === 'light' ? 'text-[#3B7CB8]' : 'text-[#3B7CB8]'}`}>
             {languagePreference}
           </Text>
         </TouchableOpacity>
 
         {/* Privacy Mode */}
-        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}>
+        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}>
           <View className="flex-row items-center">
             <Icon name="eye-off-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Privacy Mode
             </Text>
           </View>
@@ -193,10 +193,10 @@ const SettingScreen: React.FC = () => {
         </View>
 
         {/* Data Usage */}
-        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-4 rounded-lg mb-4 shadow-md`}>
+        <View className={`flex-row items-center justify-between ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'} p-4 rounded-lg mb-4 shadow-md`}>
           <View className="flex-row items-center">
             <Icon name="cellular-outline" size={24} color={theme === 'light' ? '#6B7280' : '#D1D5DB'} />
-            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+            <Text className={`text-lg font-medium ml-3 ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
               Reduce Data Usage
             </Text>
           </View>
@@ -209,11 +209,11 @@ const SettingScreen: React.FC = () => {
         </View>
 
         {/* Version Info */}
-        <View className={`p-4 rounded-lg mb-4 shadow-md ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
-          <Text className={`text-lg font-medium ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+        <View className={`p-4 rounded-lg mb-4 shadow-md ${theme === 'light' ? 'bg-white' : 'bg-[#374151]'}`}>
+          <Text className={`text-lg font-medium ${theme === 'light' ? 'text-[#1F2937]' : 'text-white'}`}>
             App Version
           </Text>
-          <Text className={`text-teal-500 text-sm ${theme === 'light' ? 'text-teal-500' : 'text-teal-300'}`}>
+          <Text className={`text-[#3B7CB8] text-sm ${theme === 'light' ? 'text-[#3B7CB8]' : 'text-[#3B7CB8]'}`}>
             v1.1.0
           </Text>
           <Text className={`text-xs mt-1 ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
@@ -224,10 +224,11 @@ const SettingScreen: React.FC = () => {
         {/* Logout Button */}
         <TouchableOpacity
           onPress={handleLogout}
-          className="flex-row items-center bg-red-500 px-4 py-3 rounded-lg shadow-md"
+          className={`w-full p-4 rounded-lg bg-red-500 mb-6`}
         >
-          <Icon name="log-out-outline" size={24} color="#FFF" />
-          <Text className="text-white font-medium text-lg ml-3">Logout</Text>
+          <Text className={`text-center text-white text-lg font-semibold`}>
+            Log Out
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </Layout>
